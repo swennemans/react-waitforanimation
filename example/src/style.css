@@ -1,0 +1,26 @@
+.App {
+  height: 400px;
+  width: 400px;
+  position: absolute;
+  background-color: yellow;
+  /*left: -400px;*/
+  transform: translateX(-400px);
+  transition: transform cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s;
+}
+
+.App_Show {
+  transform: translateX(0px);
+}
+
+.button-container {
+  top: 0;
+  position: absolute;
+  right: 20px;
+}
+
+.Button {
+  top: 0;
+  height: 30px;
+  width: 100px;
+  position: relative;
+}
