@@ -1,13 +1,15 @@
 /* @flow */
 import React from 'react';
+const vendors = ['transitionend', 'OTransitionEnd', 'webkitTransitionEnd'];
 
-function waitForAnimation<Config>(
-  ComposedComponent: ReactClass<Config>
-): ReactClass {
-  return class extends React.Component {
-    props: Object;
+class WaitForAnimation extends React.Component {
+    props: {
+      componentDidAnimate: () => void,
+      children?: any;  // FIXME flow doesn't typecheck children, see facebook/flow#1355
+    };
     state: {
       isReady: boolean,
+      isResetted: boolean,
       isEnded: boolean,
     };
     transitionHasEnded: () => void;
@@ -17,6 +19,7 @@ function waitForAnimation<Config>(
       super(props);
       this.state = { 
         isEnded: false,
+        isResetted: false,
         isReady: true, 
       };
       this.transitionHasEnded = this.transitionHasEnded.bind(this);
@@ -24,7 +27,6 @@ function waitForAnimation<Config>(
     }
 
     componentDidMount(): void {
-      const vendors = ['transitionend', 'OTransitionEnd', 'webkitTransitionEnd'];
       if (this._containerRef !== null) {
         vendors.forEach(tEvent => {
           this._containerRef.addEventListener(tEvent, () => {
@@ -35,9 +37,10 @@ function waitForAnimation<Config>(
     }
 
     componentWillUnmount(): void {
-      this._containerRef.removeEventListener('transitionend');
+      vendors.forEach(tEvent => {
+        this._containerRef.removeEventListener(tEvent);
+      })
     }
-
     /**
      * We're only interested in passing animationDidFinish = true
      * to child component when we're coming from !isEnded -> isEnded. 
@@ -52,6 +55,7 @@ function waitForAnimation<Config>(
         this.setState({ isResetted: false });
       } else if (!isEnded) {
         this.setState({ isEnded: true });
+        this.props.componentDidAnimate();
       } else {
         this.setState({ isEnded: false });
       }
@@ -72,14 +76,10 @@ function waitForAnimation<Config>(
     render(): React.Element {
       return (
         <div ref={ref => this._containerRef = ref}>
-          <ComposedComponent 
-            {...this.props}
-            resetAnimationState={this.resetAnimationState}
-            animationDidFinish={this.state.isEnded} />;
+          {this.props.children(this.resetAnimationState)}
         </div>
       )
     }
-  }
 }
 
-export default waitForAnimation;
+export default WaitForAnimation;

@@ -10,13 +10,5 @@ is the best solution for this, but is poorly supported :(
 
 For now check the example. 
 
-```
-componentDidUpdate(prevProps) {
-  const { animationDidFinish } = this.props;
-  if (animationDidFinish && animationDidFinish !== prevProps.animationDidFinish) {
-    this.someBlockingAction();
-  }
-}
-```
 
 ![](./example.gif)

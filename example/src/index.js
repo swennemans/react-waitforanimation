@@ -9,20 +9,24 @@ class App extends Component {
     super();
     this.state = { 
       open: false,
-      message: '..' 
+      isCalculating: false,
+      message: '..',
+      load: false,
     };
+
+    this.someBlockingAction = this.someBlockingAction.bind(this);
   }
 
   componentDidUpdate(prevProps) {
-    const { animationDidFinish } = this.props;
-    if (animationDidFinish && animationDidFinish !== prevProps.animationDidFinish) {
-      this.someBlockingAction();
-    }
+    // const { animationDidFinish } = this.props;
+    // if (animationDidFinish && animationDidFinish !== prevProps.animationDidFinish) {
+    //   this.someBlockingAction();
+    // }
   }
 
   someBlockingAction() {
     new Array(10000000).join().split(',').map((item, index) => ++index);
-    this.setState({ message: 'Finished! '});
+    this.setState({ message: 'Finished! '});    
   }
 
   toggleMenu() {
@@ -30,36 +34,39 @@ class App extends Component {
     this.setState({ open: !open });
   }
 
-  reset() {
-    this.props.resetAnimationState();
+  reset(resetAnimationState: func) {
+    resetAnimationState();
     this.setState({ message: '...', open: false });
   }
 
   render() {
     return (
-      <div>
-        <div className={`App ${this.state.open ? 'App_Show': ''}`}>
-          <h1>{this.state.message}</h1>
-        </div>
-        <div className="button-container">
-        <button 
-          onClick={() => this.toggleMenu()}
-          className="Button"
-        >
-        Toggle
-        </button> 
-          <button 
-          onClick={() => this.reset() }
-          className="Button"
-        >
-        RESET
-        </button> 
-        </div>
-      </div>
+      <WaitForAnimation componentDidAnimate={() => this.someBlockingAction()}>
+          {(resetAnimationState) => (
+            <div>
+              <div className={`App ${this.state.open ? 'App_Show': ''}`}>
+                <h1>{this.state.message}</h1>
+              </div>
+            <div className="button-container">
+            <button 
+              onClick={() => this.toggleMenu()}
+              className="Button"
+            >
+            Toggle
+            </button> 
+              <button 
+              onClick={() => this.reset(resetAnimationState) }
+              className="Button"
+            >
+            RESET
+            </button> 
+            </div>
+          </div>
+        )}
+      </WaitForAnimation>
     )
   }
 }
 
-const MyApp = WaitForAnimation(App);
 
-render(<MyApp/>, document.getElementById('root'));
+render(<App/>, document.getElementById('root'));
