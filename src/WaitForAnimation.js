@@ -5,10 +5,9 @@ const vendors = ['transitionend', 'OTransitionEnd', 'webkitTransitionEnd'];
 class WaitForAnimation extends React.Component {
     props: {
       componentDidAnimate: () => void,
-      children?: any;  // FIXME flow doesn't typecheck children, see facebook/flow#1355
+      children?: any;  // FIXME:, see facebook/flow#1355
     };
     state: {
-      isReady: boolean,
       isResetted: boolean,
       isEnded: boolean,
     };
@@ -20,7 +19,6 @@ class WaitForAnimation extends React.Component {
       this.state = { 
         isEnded: false,
         isResetted: false,
-        isReady: true, 
       };
       this.transitionHasEnded = this.transitionHasEnded.bind(this);
       this.resetAnimationState = this.resetAnimationState.bind(this);

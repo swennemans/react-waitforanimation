@@ -4,9 +4,7 @@ module.exports = {
   entry: './example/src/index.js',
   devtool: 'eval-source-map',
   output: {
-    // path: __dirname + '/example/build', 
     fileName: 'bundle.js',
-    // publicPath: __dirname + '/example'
   },
   module: {
     loaders: [

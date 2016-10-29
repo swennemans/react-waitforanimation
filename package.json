@@ -1,11 +1,13 @@
 {
   "name": "react-waitforanimation",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.2",
+  "description": "Declarative way to wait for an CSS transistion to finish before doing heavy work",
+  "main": "lib/index.js",
   "scripts": {
     "test": "babel-node ./src/__tests__/WaitForAnimation-test.js",
-    "dev": "webpack-dev-server --hot"
+    "dev": "webpack-dev-server --hot",
+    "build": "NODE_ENV=production webpack --config webpack.config.build.js",
+    "prepublish": "npm run build"
   },
   "author": "",
   "license": "ISC",
@@ -21,13 +23,11 @@
     "eslint-plugin-flowtype": "^2.20.0",
     "faucet": "0.0.1",
     "jest": "^16.0.2",
-    "jsdom": "^9.8.0",
     "react": "^15.3.2",
     "react-addons-test-utils": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-test-renderer": "^15.3.2",
     "sinon": "^1.17.6",
-    "tape": "^4.6.2",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"
   },
@@ -35,9 +35,13 @@
     "react": "^0.14 || ^15.0",
     "react-dom": "^0.14 || ^15.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/swennemans/react-waitforanimation"
+  },
   "keywords": [
     "react-component",
     "react",
     "animation"
-  ]
+  ],
 }
