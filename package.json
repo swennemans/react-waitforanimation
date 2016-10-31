@@ -4,7 +4,7 @@
   "description": "Declarative way to wait for an CSS transistion to finish before doing heavy work",
   "main": "lib/index.js",
   "scripts": {
-    "test": "babel-node ./src/__tests__/WaitForAnimation-test.js",
+    "test": "jest",
     "dev": "webpack-dev-server --hot",
     "build": "NODE_ENV=production webpack --config webpack.config.build.js",
     "prepublish": "npm run build"
@@ -18,10 +18,8 @@
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.16.0",
-    "enzyme": "^2.5.1",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-flowtype": "^2.20.0",
-    "faucet": "0.0.1",
     "jest": "^16.0.2",
     "react": "^15.3.2",
     "react-addons-test-utils": "^15.3.2",

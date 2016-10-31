@@ -16,14 +16,7 @@ class App extends Component {
 
     this.someBlockingAction = this.someBlockingAction.bind(this);
   }
-
-  componentDidUpdate(prevProps) {
-    // const { animationDidFinish } = this.props;
-    // if (animationDidFinish && animationDidFinish !== prevProps.animationDidFinish) {
-    //   this.someBlockingAction();
-    // }
-  }
-
+  
   someBlockingAction() {
     new Array(10000000).join().split(',').map((item, index) => ++index);
     this.setState({ message: 'Finished! '});    
